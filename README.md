@@ -1,9 +1,45 @@
 Sample Laravel app for Article CRUD
 
-## Installation
+## Installation with Laravel Sail
+
+Clone the repository:
 
 ```bash
 git clone git@github.com:rak-leitch/hfs.git
 ```
-The app requires a database to be set up and configured, and the dependencies to be installed with composer. Once you have done this run the migrations.
-At this point, you should be able to create an account, log in, and create/delete articles from the dashboard. A complete list of articles is available at /articles.
+Copy the .env.example file to .env:
+```bash
+cp .env.example .env
+```
+Ensure the DB config is correct in .env:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=sail
+DB_PASSWORD=password
+```
+
+Install the dependancies:
+ ```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
+Start Sail:
+```
+sail up
+```
+Generate the application key:
+```
+sail artisan key:generate
+```
+Finally, run the migrations:
+```
+sail artisan migrate
+```
